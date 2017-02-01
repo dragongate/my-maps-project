@@ -5,31 +5,23 @@
   <form>
     <p>Address :
       <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}">
-      <button type="button" (click)="search()">Search</button>
+      <button type="button" (click)="searchMore()">Search</button>
     </p>
-    {{address}}
-    <br> <br>
-    <!--<p>
-      <u>Optional</u>
-      
-    </p>
-    <p>
-      Location :
-      <input type="text" [(ngModel)]="location" [ngModelOptions]="{standalone: true}">
-    </p>
-    {{location}}
-    <p>
-
-    </p>-->
     
+    <p *ngFor="let data of addresses">
+      {{data}}
+    </p>
+    <br> <br>
 
   </form>
 
 
   <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]='zoom'>
-    <sebm-google-map-marker [latitude]="lat" [longitude]="lng">
+    <sebm-google-map-marker 
+      *ngFor="let mark of markers; let i = index" 
+      [latitude]="mark.lat" [longitude]="mark.lng">
       <sebm-google-map-info-window [disableAutoPan]="true">
-        <strong>{{detail}}</strong>
+        <strong>{{mark.detail}}</strong>
       </sebm-google-map-info-window>
     </sebm-google-map-marker>
   </sebm-google-map>

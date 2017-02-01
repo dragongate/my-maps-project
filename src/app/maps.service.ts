@@ -24,6 +24,18 @@ export class MapsService {
         //    .map(response => (<Response>response));
         
     }
+    getmapsCoordinate_optional(address: string){
+       
+        //let uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=Torun&components=administrative_area:TX|country:US&key=AIzaSyC5lQ_gp4v2XW3KTONULU5doLbU-C5g4hI';
+        let uri = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyC5lQ_gp4v2XW3KTONULU5doLbU-C5g4hI';
+        // return this.http.get(uri).map((response:Response) => response.json())
+        //     .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+        return this.http.get(uri).map(this.extractData);
+           
+        // return this.http.get(uri) 
+        //    .map(response => (<Response>response));
+        
+    }
     private extractData(res: Response) {
         return res.json();
     }
