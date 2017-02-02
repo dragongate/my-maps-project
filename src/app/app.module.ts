@@ -9,6 +9,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MapsService } from './maps.service';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatepickerModule, AlertModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [

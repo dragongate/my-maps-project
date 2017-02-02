@@ -27,7 +27,8 @@ export class AppComponent {
     " International Commerce Centre	1 Austin Road West	Kowloon, Hong Kong",
     "	Rw. 005, Kelurahan Krukut,	Kecamatan Taman Sari	Kotamadya Jakarta Barat, Indonesia",
     "Changqing Garden ,	Dongxihu District, Wuhan Hubei Province PRC",
-    "Dubai	Dubai Internet City 12 #02-211	P O Box 502430, Dubai	United Arab Emirates"
+    "Dubai	Dubai Internet City 12 #02-211	P O Box 502430, Dubai	United Arab Emirates",
+    "No. 68 Xue Fu South Road+Changqing Garden Street+Dongxihu District Wuhan Hubei Province"
   ];
   zoom: number = 8;
 
@@ -41,6 +42,8 @@ export class AppComponent {
 
   detail: string;
 
+  alert: boolean = false;
+
   ngOnInit() {
     this.search();
   }
@@ -52,16 +55,19 @@ export class AppComponent {
           console.log("VALUE RECEIVED: ", x);
           console.log(JSON.stringify(x));
           let data = x;
-          console.log(data.results[0].geometry.location.lat);
-          this.markers.push({
-            lat: data.results[0].geometry.location.lat,
-            lng: data.results[0].geometry.location.lng,
-            detail: data.results[0].formatted_address
-          });
-          this.lat = data.results[0].geometry.location.lat;
-          this.lng = data.results[0].geometry.location.lng;
-          this.detail = data.results[0].formatted_address;
-          console.log(this.markers);
+          if(data.status == "OK"){
+            console.log(data.results[0].geometry.location.lat);
+            this.markers.push({
+              lat: data.results[0].geometry.location.lat,
+              lng: data.results[0].geometry.location.lng,
+              detail: data.results[0].formatted_address
+            });
+            this.lat = data.results[0].geometry.location.lat;
+            this.lng = data.results[0].geometry.location.lng;
+            this.detail = data.results[0].formatted_address;
+            console.log(this.markers);
+          }
+          
 
         }
       );
@@ -78,49 +84,61 @@ export class AppComponent {
           console.log("VALUE RECEIVED: ", x);
           console.log(JSON.stringify(x));
           let data = x;
-          console.log(data.results[0].geometry.location.lat);
-          this.markers.push({
-            lat: data.results[0].geometry.location.lat,
-            lng: data.results[0].geometry.location.lng,
-            detail: data.results[0].formatted_address
-          });
-          this.lat = data.results[0].geometry.location.lat;
-          this.lng = data.results[0].geometry.location.lng;
-          this.detail = data.results[0].formatted_address;
-          console.log(this.markers);
-          this.addresses.push(this.detail);
+          if(data.status != "OK"){
+            console.error("Search not found");
+          }
+          else{
+            console.log(data.results[0].geometry.location.lat);
+            
+            this.markers.push({
+              lat: data.results[0].geometry.location.lat,
+              lng: data.results[0].geometry.location.lng,
+              detail: data.results[0].formatted_address
+            });
+            this.lat = data.results[0].geometry.location.lat;
+            this.lng = data.results[0].geometry.location.lng;
+            this.detail = data.results[0].formatted_address;
+            console.log("this.marker : " + this.markers);
+            this.addresses.push(this.detail);
+          }
+          
+          
 
+
+        },
+        error => {
+          console.error("Search not found");
         }
       );
 
 
 
   }
-  // search_optional() {
-  //   if (this.address) {
-  //     this.optional_address = this.address;
-  //   }
-  //   this.optional_address = this.optional_address + "&components=";
-  //   if (this.country) {
-  //     this.optional_address = "country:" + this.country;
-  //   }
-  //   if (this.route) {
-  //     this.optional_address = this.optional_address + "|" + "route:" + this.route;
-  //   }
-  //   if (this.post_box) {
-  //     this.optional_address = this.optional_address + "|" + "post_box:" + this.post_box;
-  //   }
-  //   this.mapsService.getmapsCoordinate(this.optional_address).subscribe(
-  //     x => {
-  //       console.log("VALUE RECEIVED: ", x);
-  //       console.log(JSON.stringify(x));
-  //       let data = x;
-  //       console.log(data.results[0].geometry.location.lat);
-  //       this.lat = data.results[0].geometry.location.lat;
-  //       this.lng = data.results[0].geometry.location.lng;
-  //       this.detail = data.results[0].formatted_address;
-  //     }
-  //   );
+  search_optional() {
+    if (this.address) {
+      this.optional_address = this.address;
+    }
+    this.optional_address = this.optional_address + "&components=";
+    if (this.country) {
+      this.optional_address = "country:" + this.country;
+    }
+    if (this.route) {
+      this.optional_address = this.optional_address + "|" + "route:" + this.route;
+    }
+    if (this.post_box) {
+      this.optional_address = this.optional_address + "|" + "post_box:" + this.post_box;
+    }
+    this.mapsService.getmapsCoordinate(this.optional_address).subscribe(
+      x => {
+        console.log("VALUE RECEIVED: ", x);
+        console.log(JSON.stringify(x));
+        let data = x;
+        console.log(data.results[0].geometry.location.lat);
+        this.lat = data.results[0].geometry.location.lat;
+        this.lng = data.results[0].geometry.location.lng;
+        this.detail = data.results[0].formatted_address;
+      }
+    );
 
-  // }
+  }
 }

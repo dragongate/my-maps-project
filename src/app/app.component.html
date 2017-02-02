@@ -4,10 +4,10 @@
   </h1>
   <form>
     <p>Address :
-      <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}">
+      <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" style="width: 500px;">
       <button type="button" (click)="searchMore()">Search</button>
     </p>
-    
+
     <p *ngFor="let data of addresses">
       {{data}}
     </p>
