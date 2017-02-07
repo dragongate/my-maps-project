@@ -1,4 +1,14 @@
 <div class="container">
+  <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]='zoom'>
+      <sebm-google-map-marker 
+        *ngFor="let mark of markers; let i = index" 
+        [latitude]="mark.lat" [longitude]="mark.lng">
+        <sebm-google-map-info-window [disableAutoPan]="true">
+          <strong>{{mark.detail}}</strong>
+        </sebm-google-map-info-window>
+      </sebm-google-map-marker>
+    </sebm-google-map>
+
   <h1>
     {{title}}
   </h1>
@@ -6,6 +16,7 @@
     <p>Address :
       <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" style="width: 500px;">
       <button type="button" (click)="searchMore()">Search</button>
+      <button type="button" (click)="search_loop()">Search by cut some detail until found</button>
     </p>
 
     <p *ngFor="let data of addresses">
@@ -15,16 +26,43 @@
 
   </form>
 
+  <form>
+    <p>Address :
+      <input type="text" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Street Address :
+      <input type="text" [(ngModel)]="street_address" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Route :
+      <input type="text" [(ngModel)]="route" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Country :
+      <input type="text" [(ngModel)]="country" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Locality :
+      <input type="text" [(ngModel)]="locality" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Postal Code :
+      <input type="text" [(ngModel)]="post_code" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Post Box :
+      <input type="text" [(ngModel)]="post_box" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Street Number :
+      <input type="text" [(ngModel)]="street_number" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Floor :
+      <input type="text" [(ngModel)]="floor" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <p>Room :
+      <input type="text" [(ngModel)]="room" [ngModelOptions]="{standalone: true}" style="width: 500px;">
+    </p>
+    <button type="button" (click)="search_optional()">Search</button>
+    {{optional_address}}
+  </form>
 
-  <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]='zoom'>
-    <sebm-google-map-marker 
-      *ngFor="let mark of markers; let i = index" 
-      [latitude]="mark.lat" [longitude]="mark.lng">
-      <sebm-google-map-info-window [disableAutoPan]="true">
-        <strong>{{mark.detail}}</strong>
-      </sebm-google-map-info-window>
-    </sebm-google-map-marker>
-  </sebm-google-map>
+
+  
 
 
 
