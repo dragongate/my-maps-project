@@ -119,18 +119,46 @@ export class AppComponent {
 
   search_loop() {
     let status = "OK!";
-    // while (status != "OK") {
-    for (let i = 0; i < 4; i++) {
-      let result = this.mapsService.getmapsCoordinate2(this.address);
+    let data = this.address;
+    let address: string;
+    let arrayData = data.split(" ");
+    let length = arrayData.length;
+    let found = false;
+
+    for (let i = length; i >= (length / 2); i--) {
+      address = "";
+      console.log(arrayData);
+      console.log(arrayData + "  length : " + length);
+      let fixLength = i;
+      for (let i = length - fixLength + 1; i < length; i++) {
+        address = address + " " + arrayData[i];
+      }
+      console.log(address);
+
+      let result = this.mapsService.getmapsCoordinate2(address);
       //this.mapsService.getmapsCoordinate2(this.address);
       console.log(JSON.stringify(result));
       console.log(result);
       result.then(data => {
+        console.log(data);
         console.log(data.status);
+        if (data.status == "OK" && found == false) {
+          this.markers.push({
+            lat: data.results[0].geometry.location.lat,
+            lng: data.results[0].geometry.location.lng,
+            detail: data.results[0].formatted_address
+          });
+          this.lat = data.results[0].geometry.location.lat;
+          this.lng = data.results[0].geometry.location.lng;
+          this.detail = data.results[0].formatted_address;
+          console.log("this.marker : " + this.markers);
+          this.addresses.push(this.detail);
+          found = true;
+        }
       });
-      // result._zone_symbol_value.status
-      if (status == "OK!")
-        break;
+
+      // if (status == "OK")
+      //   break;
     }
   }
 
